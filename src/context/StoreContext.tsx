@@ -131,6 +131,29 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [completedOrder, setCompletedOrder] = useState<OrderDetails | null>(null);
   const [analytics, setAnalytics] = useState<AnalyticsStats>(INITIAL_ANALYTICS_DATA);
 
+  // Send SPA page_view and custom events to Google Tag (gtag)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+      const pagePath =
+        activeView === 'home'
+          ? '/'
+          : activeView === 'shop'
+          ? '/shop'
+          : activeView === 'product-detail' && selectedProduct
+          ? `/products/${selectedProduct.slug}`
+          : activeView === 'drop-campaign'
+          ? '/drops/suit-up-for-39'
+          : activeView === 'order-confirmation'
+          ? '/order-confirmation'
+          : `/${activeView}`;
+
+      (window as any).gtag('event', 'page_view', {
+        page_path: pagePath,
+        page_title: document.title
+      });
+    }
+  }, [activeView, selectedProduct]);
+
   // Cart calculations
   const freeShippingThreshold = 75.00;
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
