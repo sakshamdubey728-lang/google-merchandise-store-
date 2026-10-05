@@ -1,0 +1,6 @@
+{
+  "name": "Google Merchandise Store",
+  "description": "The official Google Merchandise Store redesign with mobile-first discovery, limited edition drops, Google Pay express checkout, and curated Google collections.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
